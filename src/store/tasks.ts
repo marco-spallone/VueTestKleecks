@@ -2,37 +2,35 @@ import {defineStore} from "pinia";
 
 export const tasksStore = defineStore('tasksStore', {
     state: () => ({
-        tasks:[]
+        tasks: []
     }),
-    getters: {
-
-    },
-    persist:true,
-    actions:{
-        addTask(description){
+    getters: {},
+    persist: true,
+    actions: {
+        addTask(description) {
             let maxId = 0;
             this.tasks.forEach(item => {
-                if(item!=null && item.id>=maxId){
-                    maxId=item.id+1;
+                if (item != null && item.id >= maxId) {
+                    maxId = item.id + 1;
                 }
             })
-            let task={
-                id:maxId,
-                description:description,
-                completed:false
+            let task = {
+                id: maxId,
+                description: description,
+                completed: false
             }
             this.tasks.push(task);
         },
-        changeState(task){
+        changeState(task) {
             this.tasks.find((item, index) => {
-                if(item.id===task.id){
-                    this.tasks[index].completed=!this.tasks[index].completed;
+                if (item.id === task.id) {
+                    this.tasks[index].completed = !this.tasks[index].completed;
                 }
             })
         },
-        deleteTask(task){
+        deleteTask(task) {
             this.tasks.find((item, index) => {
-                if(item != null && item.id===task.id){
+                if (item != null && item.id === task.id) {
                     this.tasks.splice(index, 1);
                 }
             })
