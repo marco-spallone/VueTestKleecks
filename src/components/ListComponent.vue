@@ -25,54 +25,62 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {tasksStore} from "@/store/tasks";
 import BaseCheckBox from "@/components/library/BaseCheckBox.vue";
 import BaseButton from "@/components/library/BaseButton.vue";
+import {onMounted, ref} from "vue";
 
 export default {
   name: "ListComponent",
   components: {BaseButton, BaseCheckBox},
-  beforeMount() {
-    this.filterTasks('all');
-    this.checkTasksCount();
-  },
-  data(){
-    return{
-      tasks:[],
-      tasksCount:0
-    }
-  },
-  methods:{
-    changeState(task){
+  setup(){
+    const tasks = ref([]);
+    const tasksCount = ref(0);
+    onMounted (() => {
+      filterTasks('all');
+      checkTasksCount();
+    })
+    const changeState = (task) => {
       tasksStore().changeState(task);
-      this.checkTasksCount();
-    },
-    deleteTask(task){
-      tasksStore().deleteTask(task);
-    },
-    checkTasksCount(){
-      this.tasksCount=0;
-      this.tasks.forEach(item => {
+      filterTasks('all');
+      checkTasksCount();
+    }
+    const deleteTask = async (task) => {
+      await tasksStore().deleteTask(task);
+      filterTasks('all');
+      checkTasksCount();
+    }
+    const checkTasksCount = () => {
+      tasksCount.value=0;
+      tasks.value.forEach(item => {
         if(!item.completed){
-          this.tasksCount++;
+          tasksCount.value++;
         }
       })
-    },
-    filterTasks(filter){
+    }
+    const filterTasks = (filter) => {
       switch (filter){
         case 'all':
-          this.tasks=tasksStore().tasks;
+          tasks.value=tasksStore().tasks;
           break;
         case 'active':
-          this.tasks=tasksStore().tasks.filter(task => !task.completed)
+          tasks.value=tasksStore().tasks.filter(task => !task.completed)
           break;
         case 'completed':
-          this.tasks=tasksStore().tasks.filter(task => task.completed)
+          tasks.value=tasksStore().tasks.filter(task => task.completed)
           break;
         default:
           break;
       }
+    }
+    return {
+      tasks,
+      tasksCount,
+      changeState,
+      checkTasksCount,
+      filterTasks,
+      deleteTask
     }
   }
 }

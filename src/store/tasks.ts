@@ -10,13 +10,18 @@ export const tasksStore = defineStore('tasksStore', {
     persist:true,
     actions:{
         addTask(description){
+            let maxId = 0;
+            this.tasks.forEach(item => {
+                if(item!=null && item.id>=maxId){
+                    maxId=item.id+1;
+                }
+            })
             let task={
-                id:this.tasks.length+1,
+                id:maxId,
                 description:description,
                 completed:false
             }
             this.tasks.push(task);
-            console.log(this.tasks)
         },
         changeState(task){
             this.tasks.find((item, index) => {
@@ -27,7 +32,7 @@ export const tasksStore = defineStore('tasksStore', {
         },
         deleteTask(task){
             this.tasks.find((item, index) => {
-                if(item.id===task.id){
+                if(item != null && item.id===task.id){
                     this.tasks.splice(index, 1);
                 }
             })
