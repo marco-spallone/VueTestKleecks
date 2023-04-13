@@ -1,7 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import FormComponent from "@/components/FormComponent.vue";
+import ListComponent from "@/components/ListComponent.vue";
 
 const routes = [
+    {
+        path:'/tasks',
+        name:'tasks',
+        component:ListComponent
+    },
     {
         path:'/form',
         name:'form',
@@ -10,7 +16,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history:createWebHistory(process.env.BASE_URL),
+    history:createWebHistory(),
     routes
 });
 
