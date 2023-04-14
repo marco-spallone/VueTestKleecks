@@ -3,18 +3,9 @@
             v-model="value"/>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {ref} from "vue";
-
-export default {
-  name: "BaseInput",
-  setup() {
-    const value = ref("");
-    return {
-      value
-    }
-  },
-}
+const value = ref("")
 </script>
 
 <style scoped>

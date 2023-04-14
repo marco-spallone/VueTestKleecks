@@ -12,16 +12,13 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: "BaseButton",
-  props: {
-    type: String,
-    disabled: Boolean,
-    text: String,
-    styles: String
-  }
-}
+<script setup lang="ts">
+const props = defineProps({
+  type: String,
+  disabled: Boolean,
+  text: String,
+  styles: String
+})
 </script>
 
 <style scoped>

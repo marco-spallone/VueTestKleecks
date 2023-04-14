@@ -19,26 +19,18 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BaseInput from "@/components/library/BaseInput.vue";
 import {tasksStore} from '@/store/tasks';
 import BaseButton from "@/components/library/BaseButton.vue";
 import {ref} from "vue";
+import router from "@/router";
 
-export default {
-  name: "FormComponent",
-  components: {BaseButton, BaseInput},
-  setup() {
-    const description = ref("")
-    const onSubmit = () => {
-      if (description.value.length != 0) {
-        tasksStore().addTask(description.value);
-      }
-    }
-    return {
-      description,
-      onSubmit
-    }
+const description = ref("")
+const onSubmit = () => {
+  if (description.value.length != 0) {
+    tasksStore().addTask(description.value);
+    router.push('/tasks');
   }
 }
 </script>
