@@ -1,8 +1,12 @@
 <template>
-  <div class="grid place-items-center">
-    <div class="inline-flex rounded-md shadow-sm" role="group">
-      <BaseButton :disabled="false" :type="'outline'" :text="'All'" :styles="'px-4 py-2 text-sm font-medium rounded-l-md hover:bg-gray-900 hover:text-white'
-            +'focus:z-10 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white'
+  <div class="grid place-items-center grid-rows-5 gap-2 flow-root">
+    <div class="justify-items-start row-span-1">
+      <BaseButton :disabled="false" :type="'solid'" :text="'Add'" :styles="'mr-52 mb-3 bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded border-transparent'"
+                  @click="addTask()"></BaseButton>
+    </div>
+    <div class="inline-flex rounded-md shadow-sm row-span-1" role="group">
+      <BaseButton :disabled="false" :type="'outline'" :text="'All tasks'" :styles="'px-4 py-2 text-sm font-medium rounded-l-md hover:bg-gray-900 hover:text-white'
+            +'focus:z-10 focus:ring-blue-500 focus:bg-blue-900 group-focus:block focus:text-white dark:border-white dark:text-white dark:hover:text-white'
             +'dark:hover:bg-yellow-800 dark:focus:bg-yellow-600'" @click="filterTasks('all')"></BaseButton>
       <BaseButton :disabled=false :type="'outline'" :text="'Active'" :styles="'px-4 py-2 text-sm font-medium bg-transparent border hover:bg-gray-900 hover:text-white'
             +'focus:z-10 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white'
@@ -13,7 +17,7 @@
             +'dark:hover:bg-yellow-800 dark:focus:bg-yellow-600'" @click="filterTasks('completed')">Completed
       </BaseButton>
     </div>
-    <div class="mt-7">
+    <div class="mt-7 row-span-2">
       <ul class="list-disc">
         <li v-for="task of tasks" class="mb-5">
           <BaseCheckBox :checked="task.completed" class="mr-3 ml-2" @change="changeState(task)"></BaseCheckBox>
@@ -25,7 +29,7 @@
         </li>
       </ul>
     </div>
-    <div>
+    <div class="row-span-1">
       <p>Task ancora da completare: {{ tasksCount }}</p>
     </div>
   </div>
@@ -36,6 +40,7 @@ import {tasksStore} from "@/store/tasks";
 import BaseCheckBox from "@/components/library/BaseCheckBox.vue";
 import BaseButton from "@/components/library/BaseButton.vue";
 import {onMounted, ref} from "vue";
+import router from "@/router";
 
 export default {
   name: "ListComponent",
@@ -80,12 +85,16 @@ export default {
           break;
       }
     }
+    const addTask = () => {
+      router.push('/form')
+    }
     return {
       tasks,
       tasksCount,
       changeState,
       checkTasksCount,
       filterTasks,
+      addTask,
       deleteTask
     }
   }
